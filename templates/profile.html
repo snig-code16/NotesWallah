@@ -7,7 +7,7 @@
     <title>{% block title %}Notes Wallah{% endblock %}</title>
     <style>
         form {
-            max-width: 400px;
+            max-width: 450px;
             margin: 30vh 5vh;
             padding: 20px;
             background-color: #fff;
@@ -111,6 +111,8 @@
             <input type="file" id="profile_picture" name="profile_picture">
 
             <button type="submit">Update Profile</button>
+            <br><br>
+            <a href="/change_password" style="font-size: 13px; margin: 10px 0;">Change Password</a>
         </form>
 
         <img src="{{ user.profile_picture }}" alt="Author's Profile Picture" width="500px"

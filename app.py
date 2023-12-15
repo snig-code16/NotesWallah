@@ -232,5 +232,18 @@ def share_music():
 
     return render_template('study_music.html')
 
+@app.route('/change_password', methods=['GET', 'POST'])
+def change_pass():
+    if request.method == 'POST':
+        password = request.form['password']
+        new_password = request.form['confirm-password']
+        if password == new_password:
+            user = User.query.get(session['user_id'])
+            user.password = generate_password_hash(password)
+            db.session.commit()
+            flash('Password changed successfully!', 'success')
+            return redirect(url_for('dashboard'))
+    return render_template('change_password.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=6010)
