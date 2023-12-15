@@ -100,8 +100,8 @@ def logout():
 
 @app.route('/dashboard')
 def dashboard():
-    posts = Post.query.order_by(desc(Post.posted_at)).all()
-    musics = Music.query.order_by(desc(Music.posted_at)).all()
+    posts = Post.query.order_by(desc(Post.id)).all()
+    musics = Music.query.order_by(desc(Music.id)).all()
     post_details = []
     music_details = []
 

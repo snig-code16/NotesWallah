@@ -49,16 +49,17 @@
 </div>
 <br><br><br><br><br>
 <div class="header"
-    style="top: 0; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: absolute; margin: 20vh; z-index: 999;">
+    style="top: 0; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: absolute; margin: 15vh; z-index: 0; background-color: white; padding: 20px 0;">
     <h2>Dashboard</h2>
     <div class="tabButtons" style="width: 80%; display: flex; border-bottom: 1px solid #dddddd; margin-top: 2vh;">
         <button class="tabLinks1" onclick="openNote()">Notes</button>
         <button class="tabLinks2" onclick="openMusic()">Music</button>
     </div>
 </div>
+{% if post_details %}
 <div class="tab-container">
     <div class="tabContent" id="notes"
-        style="position: absolute; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 50vh 0; padding-top: 30vh;">
+        style="position: absolute; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 30vh;">
         {% for post_detail in post_details %}
         <a href="{{ url_for('view_post', post_id=post_detail.post.id) }}"
             style="color: black;text-decoration: none;margin-top: 5vh;display: flex;flex-direction: column;align-items: center;justify-content: center; width: 70%;">
@@ -97,4 +98,7 @@
         {% endfor %}
     </div>
 </div>
+{% else %}
+<center><h1 style="color: grey; font-size: 30px; margin: auto auto;">No Posts Available</h1></center>
+{% endif %}
 {% endblock %}

@@ -54,6 +54,7 @@
         </svg>
         Back to Dashboard
     </a>
+    <a href="{{ url_for('download_file', post_id=post.id) }}" class="btn btn-primary">Download File</a>
     <div class="card">
         <div class="card-body">
             <h2 class="card-title">File Details</h2>
@@ -71,7 +72,6 @@
                 <p><b>Description</b>: <br> {{ post.file_description }}</p>
                 <p class="text-muted" style="font-size: 10px;">{{ post.posted_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
                 <br>
-                <a href="{{ url_for('download_file', post_id=post.id) }}" class="btn btn-primary">Download File</a>
             </div>
         </div>
     </div>
