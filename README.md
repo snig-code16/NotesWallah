@@ -60,7 +60,7 @@ To run the NotesWallah platform locally, follow these steps:
    python app.py
    ```
 
-   The platform will be accessible at [http://localhost:5000](http://localhost:5000).
+   The platform will be accessible at [http://127.0.0.1:6010](http://127.0.0.1:6010).
 
 ## Contributing 🤝
 
