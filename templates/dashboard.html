@@ -4,7 +4,8 @@
     <span id="mobileFriendlyHeader"
         style="display: flex; align-items: center; justify-content: space-between; margin: auto;">
         <a href="/dashboard" class="nav-brand">Notes Wallah</a>
-        <button id="hamburgerIcon" onclick="openMenu()"><svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 448 512" style="margin-right: 5vh;">
+        <button id="hamburgerIcon" onclick="openMenu()"><svg xmlns="http://www.w3.org/2000/svg" height="30" width="30"
+                viewBox="0 0 448 512" style="margin-right: 5vh;">
                 <path fill="#000000"
                     d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" />
             </svg></button>
@@ -60,8 +61,17 @@
 <div class="tab-container">
     <div class="tabContent" id="notes"
         style="position: absolute; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        {% for post_detail in post_details %}
-        <a href="{{ url_for('view_post', post_id=post_detail.post.id) }}"
+        <table>
+            <th>
+                <tr>
+                    <td>Author</td>
+                    <td>Filename</td>
+                    <td>View File</t>
+                    <td>Date Uploaded</td>
+                </tr>
+            </th>
+            {% for post_detail in post_details %}
+            <!-- <a href="{{ url_for('view_post', post_id=post_detail.post.id) }}"
             style="color: black;text-decoration: none;margin-top: 5vh;display: flex;flex-direction: column;align-items: center;justify-content: center; width: 70%;">
             <div class="post-container"
                 style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 70%; border: 1px solid black; padding: 20px; margin-top: 5vh;">
@@ -76,8 +86,19 @@
                 <p>{{ post_detail.post.posted_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
 
             </div>
-        </a>
-        {% endfor %}
+        </a> -->
+            <tr>
+                <td><a style="display: flex; align-items: center; justify-content: center; gap: 2px;"
+                        href="{{ url_for('author_profile', user_id=post_detail.post.author.id) }}">
+                        <img src="{{post_detail.author_profile_picture}}" alt="Author" width="30" height="30" style="border-radius: 50%; background-size: cover; aspect-ratio: 1/1;">{{post_detail.post.author.username}}</a>
+                </td>
+                <td>{{post_detail.post.file_name}}</td>
+                <td><a href="{{ url_for('view_post', post_id=post_detail.post.id) }}">Click Here To view</a>
+                </td>
+                <td>{{post_detail.post.posted_at}}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
     <div id="music" class="tabContent" style="grid-template-columns: repeat(2, 1fr); gap: 10px;">
         {% for music in musiclist %}
@@ -90,8 +111,9 @@
                     {{music.music.posted_at.strftime("%Y %H:%M:%S")}}
                 </p>
             </span>
-            <iframe width="500" height="300" id="musicFrame" src="https://www.youtube.com/embed/{{music.music.music_link}}"
-                title="{{music.music.music_name}}" frameborder="0"
+            <iframe width="500" height="300" id="musicFrame"
+                src="https://www.youtube.com/embed/{{music.music.music_link}}" title="{{music.music.music_name}}"
+                frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen style="border: 1px solid black;"></iframe>
         </div>
@@ -99,6 +121,8 @@
     </div>
 </div>
 {% else %}
-<center><h1 style="color: grey; font-size: 30px; margin: auto auto;">No Posts Available</h1></center>
+<center>
+    <h1 style="color: grey; font-size: 30px; margin: 5vh auto;">No Posts Available</h1>
+</center>
 {% endif %}
 {% endblock %}

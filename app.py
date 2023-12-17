@@ -203,7 +203,9 @@ def profile():
 def author_profile(user_id):
     user = User.query.get(user_id)
     if user:
-        return render_template('author_profile.html', user=user)
+        user_profile_picture = user.profile_picture.replace('static/', '')
+        user_profile_picture = f"{{{url_for('static', filename={user_profile_picture})}}}"
+        return render_template('author_profile.html', user=user, user_profile_picture = user_profile_picture)
     else:
         abort(404)
 

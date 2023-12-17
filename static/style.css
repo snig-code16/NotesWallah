@@ -79,7 +79,7 @@ nav .nav-links a:hover {
     /* height: auto; */
     overflow-y: scroll;
     /* padding: 15vh 0; */
-    /* margin: 15vh 0; */
+    margin: 15vh 0;
 }
 .container::-webkit-scrollbar {
     display: none;
@@ -188,7 +188,7 @@ nav .nav-links a:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 30% 0;
+    margin: 30vh 0;
     /* overflow-x: hidden; */
 }
 
@@ -439,4 +439,19 @@ svg {
         width: 50;
         height: 25;
     }
+}
+
+table {
+    height: 100vh;
+    width: 100%;
+    overflow-y:  scroll;
+    border: 1px solid black;
+    position: absolute;
+    top: 50%;
+}
+
+tr, td {
+    text-align: center;
+    padding: 0 3vh;
+    border: 1px solid black;
 }
