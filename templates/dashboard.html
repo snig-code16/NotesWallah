@@ -3,7 +3,10 @@
 <div class="nav">
     <span id="mobileFriendlyHeader"
         style="display: flex; align-items: center; justify-content: space-between; margin: auto;">
-        <a href="/dashboard" class="nav-brand">Notes Wallah</a>
+        <a href="/dashboard" class="nav-brand">
+            <img src="{{url_for('static', filename='img/favicon.png')}}" alt="" style="width: 30px; margin-right: 1vw;">
+            Notes Wallah
+        </a>
         <button id="hamburgerIcon" onclick="openMenu()"><svg xmlns="http://www.w3.org/2000/svg" height="30" width="30"
                 viewBox="0 0 448 512" style="margin-right: 5vh;">
                 <path fill="#000000"
@@ -90,7 +93,8 @@
             <tr>
                 <td><a style="display: flex; align-items: center; justify-content: center; gap: 2px;"
                         href="{{ url_for('author_profile', user_id=post_detail.post.author.id) }}">
-                        <img src="{{post_detail.author_profile_picture}}" alt="Author" width="30" height="30" style="border-radius: 50%; background-size: cover; aspect-ratio: 1/1;">{{post_detail.post.author.username}}</a>
+                        <img src="{{post_detail.author_profile_picture}}" alt="Author" width="30" height="30"
+                            style="border-radius: 50%; background-size: cover; aspect-ratio: 1/1;">{{post_detail.post.author.username}}</a>
                 </td>
                 <td>{{post_detail.post.file_name}}</td>
                 <td><a href="{{ url_for('view_post', post_id=post_detail.post.id) }}">Click Here To view</a>
@@ -105,7 +109,7 @@
         <div class="music-card" style="flex-basis: 50%;">
             <span style="display: flex; align-items: center; justify-content: center; margin: 2vh 0;"><img
                     src="{{music.author_profile_picture}}" alt="Profile Picture of Author" width="50px"
-                    style="border-radius: 50%;">
+                    style="border-radius: 50%; aspect-ratio: 1/1; size: cover;">
                 <p style="margin: 2vh 1vw;"><b><a
                             href="{{ url_for('author_profile', user_id=music.music.author.id) }}">{{music.music.author.username}}</a></b>
                     {{music.music.posted_at.strftime("%Y %H:%M:%S")}}
