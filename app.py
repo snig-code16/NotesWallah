@@ -1,3 +1,9 @@
+#----------NotesWallah-----------#
+#------Author: Akash Nath--------#
+#-----https://github.com/Akash-nath29----#
+#----------------https://akashnath.netlify.app----------------#
+
+
 from flask import Flask, render_template, request, redirect, session, flash, url_for, send_file, abort
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
@@ -7,6 +13,10 @@ from datetime import datetime
 import os
 from werkzeug.utils import secure_filename
 import pytz
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
+
 
 utc_now = datetime.utcnow()
 ist_timezone = pytz.timezone('Asia/Kolkata')
@@ -19,9 +29,10 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 db = SQLAlchemy(app)
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(30), nullable=False)
+    username = db.Column(db.String(30), nullable=False, unique=True)
     email = db.Column(db.Text, nullable=False)
     password = db.Column(db.Text, nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
@@ -42,6 +53,11 @@ class Music(db.Model):
     music_name = db.Column(db.String(100), nullable=False)
     posted_at = db.Column(db.DateTime(), default=ist_now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+admin = Admin(app)
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Post, db.session))
+admin.add_view(ModelView(Music, db.session))
 
 @app.route('/')
 def home():
