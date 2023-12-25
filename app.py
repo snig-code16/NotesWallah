@@ -34,7 +34,7 @@ ist_now = utc_now.replace(tzinfo=pytz.utc).astimezone(ist_timezone)
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
-app.secret_key = env.get("APP_SECRET_KEY")
+app.secret_key = "kfwi4f4BEpiOoeninEknk"
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 # oauth = OAuth(app)
@@ -108,6 +108,8 @@ def login():
 
         try:
             auth.sign_in_with_email_and_password(email, password)
+            user = User.query.filter_by(email=email).first()
+            session['user_id'] = user.id
             flash('Login Successful', 'Success')
             return redirect(url_for('dashboard'))
         except:
@@ -115,10 +117,8 @@ def login():
             return redirect(url_for('login'))
 
 
-        # user = User.query.filter_by(email=email).first()
 
         # if user and check_password_hash(user.password, password):
-        #     session['user_id'] = user.id
         #     flash('Login successful!', 'success')
         #     return redirect(url_for('dashboard'))
         # else:
