@@ -1,5 +1,5 @@
 function openNote() {
-    document.querySelector('#notes').style.display = "flex";
+    document.querySelector('#notes').style.display = "grid";
     document.querySelector('#music').style.display = "none";
 }
 function openMusic() {

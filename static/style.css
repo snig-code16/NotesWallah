@@ -81,9 +81,11 @@ nav .nav-links a:hover {
     /* padding: 15vh 0; */
     margin: 15vh 0;
 }
+
 .container::-webkit-scrollbar {
     display: none;
 }
+
 .left-pane h1 {
     font-size: 70px;
 }
@@ -141,12 +143,13 @@ nav .nav-links a:hover {
 }
 
 .card {
-    width: 400px;
+    width: 100%;
     margin: auto;
 }
 
 .card-body {
     padding: 20px;
+    width: 100%;
 }
 
 .card-title {
@@ -190,7 +193,7 @@ nav .nav-links a:hover {
     align-items: center;
     justify-content: center;
     margin: 30vh 0;
-    margin-top: 5vh;
+    margin-top: -10vh;
     height: 50vh;
     /* overflow-x: hidden; */
 }
@@ -271,6 +274,7 @@ svg {
     justify-content: center;
     gap: 5px;
 }
+
 .middleColumn a {
     color: white;
     display: flex;
@@ -278,6 +282,7 @@ svg {
     justify-content: flex-start;
     /* gap: 2px; */
 }
+
 .importantLinks {
     display: flex;
     flex-direction: column;
@@ -444,20 +449,21 @@ svg {
     }
 }
 
-table {
+/* table {
     height: 100vh;
     width: 100%;
-    overflow-y:  scroll;
+    overflow-y: scroll;
     border: 1px solid black;
     position: absolute;
     top: 50%;
 }
 
-tr, td {
+tr,
+td {
     text-align: center;
     padding: 0 3vh;
     border: 1px solid black;
-}
+} */
 
 .credit {
     background-color: black;
@@ -466,6 +472,66 @@ tr, td {
     color: #fff;
     padding-bottom: 10vh;
 }
+
 .credit a {
     color: #fff;
+}
+
+.dashboard-card {
+    max-width: 300px;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgb(0, 0, 0);
+    border: 1px solid transparent;
+}
+
+.dashboard-card a {
+    text-decoration: none
+}
+
+.dashboard-content {
+    padding: 1.1rem;
+}
+
+.dashboard-image {
+    object-fit: cover;
+    width: 100%;
+    height: 150px;
+    background-color: rgb(239, 205, 255);
+}
+
+.title {
+    color: #111827;
+    font-size: 1.75rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+}
+
+.desc {
+    margin-top: 0.5rem;
+    color: #6B7280;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.action {
+    display: inline-flex;
+    margin-top: 1rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    align-items: center;
+    gap: 0.25rem;
+    background-color: #2563EB;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.action span {
+    transition: .3s ease;
+}
+
+.action:hover span {
+    transform: translateX(4px);
 }

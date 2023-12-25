@@ -53,7 +53,7 @@
 </div>
 <br><br><br><br><br>
 <div class="header"
-    style="top: 0; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: absolute; margin: 15vh; z-index: 999; background-color: white; padding: 20px 0;">
+    style="top: 0; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: absolute; margin: 15vh; z-index: 999; background-color: white; padding: 20px 0; margin-bottom: 5vh;">
     <h2>Dashboard</h2>
     <div class="tabButtons" style="width: 80%; display: flex; border-bottom: 1px solid #dddddd; margin-top: 2vh;">
         <button class="tabLinks1" onclick="openNote()">Notes</button>
@@ -61,10 +61,10 @@
     </div>
 </div>
 {% if post_details %}
-<div class="tab-container">
+<div class="tab-container" style="position: relative;">
     <div class="tabContent" id="notes"
-        style="position: absolute; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <table>
+        style="position: absolute; width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+        <!-- <table>
             <th>
                 <tr>
                     <td>Author</td>
@@ -89,7 +89,7 @@
                 <p>{{ post_detail.post.posted_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
 
             </div>
-        </a> -->
+        </a>
             <tr>
                 <td><a style="display: flex; align-items: center; justify-content: center; gap: 2px;"
                         href="{{ url_for('author_profile', user_id=post_detail.post.author.id) }}">
@@ -102,7 +102,32 @@
                 <td>{{post_detail.post.posted_at}}</td>
             </tr>
             {% endfor %}
-        </table>
+        </table> -->
+        {% for post_detail in post_details %}
+        <div class="dashboard-card">
+            <div class="dashboard-image">
+                <iframe src="{{post_detail.post.file_path}}" frameborder="0" oncontextmenu="return false;"></iframe>
+            </div>
+            <div class="dashboard-content">
+                <a href="#">
+                    <span class="title">
+                        {{post_detail.post.file_name}}
+                    </span>
+                </a>
+
+                <p class="desc">
+                    {{post_detail.post.file_description}}
+                </p>
+
+                <a class="action" href="{{ url_for('view_post', post_id=post_detail.post.id) }}">
+                    View File
+                    <span aria-hidden="true">
+                        →
+                    </span>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
     <div id="music" class="tabContent" style="grid-template-columns: repeat(2, 1fr); gap: 10px;">
         {% for music in musiclist %}

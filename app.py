@@ -7,7 +7,7 @@
 from flask import Flask, render_template, request, redirect, session, flash, url_for, send_file, abort
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
-import secrets
+# import secrets
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 import os
@@ -15,8 +15,18 @@ from werkzeug.utils import secure_filename
 import pytz
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+# import json
+from os import environ as env
+# from urllib.parse import quote_plus, urlencode
+
+# from authlib.integrations.flask_client import OAuth
+# from dotenv import find_dotenv, load_dotenv
+import pyrebase
 
 
+# ENV_FILE = find_dotenv()
+# if ENV_FILE:
+#     load_dotenv(ENV_FILE)
 
 utc_now = datetime.utcnow()
 ist_timezone = pytz.timezone('Asia/Kolkata')
@@ -24,8 +34,20 @@ ist_now = utc_now.replace(tzinfo=pytz.utc).astimezone(ist_timezone)
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
-app.config['SECRET_KEY'] = secrets.token_hex(35)
+app.secret_key = env.get("APP_SECRET_KEY")
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
+
+# oauth = OAuth(app)
+
+# oauth.register(
+#     "auth0",
+#     client_id=env.get("AUTH0_CLIENT_ID"),
+#     client_secret=env.get("AUTH0_CLIENT_SECRET"),
+#     client_kwargs={
+#         "scope": "openid profile email",
+#     },
+#     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
+# )
 
 db = SQLAlchemy(app)
 
@@ -59,6 +81,21 @@ admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Post, db.session))
 admin.add_view(ModelView(Music, db.session))
 
+firebaseConfig = {
+          'apiKey' : "AIzaSyCQkjV7XaPn6woOpi97Jl-XZtFsfz8NZFg",
+          'authDomain' : "noteswallah2023.firebaseapp.com",
+          'databaseURL' : "https://noteswallah2023-default-rtdb.asia-southeast1.firebasedatabase.app/",
+          'projectId' : "noteswallah2023",
+          'storageBucket' : "noteswallah2023.appspot.com",
+          'messagingSenderId' : "936818867625",
+          'appId' : "1:936818867625:web:41a3363ad80ce0e240d8b8",
+          'measurementId' : "G-7ZZH98GYBP"
+        };
+
+firebase = pyrebase.initialize_app(firebaseConfig)
+
+auth = firebase.auth()
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -66,17 +103,26 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
 
-        user = User.query.filter_by(username=username).first()
-
-        if user and check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            flash('Login successful!', 'success')
+        try:
+            auth.sign_in_with_email_and_password(email, password)
+            flash('Login Successful', 'Success')
             return redirect(url_for('dashboard'))
-        else:
-            flash('Login failed. Check your username and password.', 'danger')
+        except:
+            flash('Enter Proper email and password', 'danger')
+            return redirect(url_for('login'))
+
+
+        # user = User.query.filter_by(email=email).first()
+
+        # if user and check_password_hash(user.password, password):
+        #     session['user_id'] = user.id
+        #     flash('Login successful!', 'success')
+        #     return redirect(url_for('dashboard'))
+        # else:
+        #     flash('Login failed. Check your username and password.', 'danger')
 
     return render_template('login.html')
 
@@ -87,11 +133,9 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
 
-        if existing_user:
-            flash('Username or email already exists. Please choose a different one.', 'danger')
-        else:
+        try:
+            auth.create_user_with_email_and_password(email, password)
             hashed_password = generate_password_hash(password)
 
             new_user = User(username=username, email=email, password=hashed_password)
@@ -101,6 +145,25 @@ def register():
 
             flash('Registration successful! You can now log in.', 'success')
             return redirect(url_for('login'))
+        except:
+            flash('Username or email already exists. Please choose a different one.', 'danger')
+            return redirect(url_for('register'))
+
+
+        # existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
+
+        # if existing_user:
+        #     flash('Username or email already exists. Please choose a different one.', 'danger')
+        # else:
+        #     hashed_password = generate_password_hash(password)
+
+        #     new_user = User(username=username, email=email, password=hashed_password)
+
+        #     db.session.add(new_user)
+        #     db.session.commit()
+
+        #     flash('Registration successful! You can now log in.', 'success')
+        #     return redirect(url_for('login'))
 
     return render_template('register.html')
 
